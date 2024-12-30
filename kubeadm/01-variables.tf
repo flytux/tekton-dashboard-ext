@@ -14,8 +14,8 @@ variable "kubeadm_nodes" {
 
   type = map(object({ role = string, ip = string }))
   default = { 
-    master1  = { role = "master-init",  ip = "192.168.122.11" },
-    #master2  = { role = "master-member",ip = "192.168.122.12" },
-    #worker2  = { role = "worker",       ip = "192.168.122.13" },
-  }
+# install 스크립트에서 추가하므로 아래 삭제
+    node-01 = { role = "master", ip = "192.168.122.11" },
+    node-02 = { role = "worker", ip = "192.168.122.12" },
+   }
 }
