@@ -1,5 +1,5 @@
 FROM codercom/code-server:4.96.2
-RUN  sudo apt update && sudo apt install nodejs npm vim net-tools -y
+RUN  sudo apt update && sudo apt install nodejs npm vim net-tools zsh -y
 # Intall Go Ko kubectl kustomize
 RUN  curl -LO https://go.dev/dl/go1.23.4.linux-amd64.tar.gz &&  sudo tar -C /usr/local -xzf go1.23.4.linux-amd64.tar.gz
 ENV  PATH="$PATH:/usr/local/go/bin"
