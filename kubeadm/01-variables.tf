@@ -16,6 +16,5 @@ variable "kubeadm_nodes" {
   default = { 
 # install 스크립트에서 추가하므로 아래 삭제
     node-01 = { role = "master", ip = "192.168.122.11" },
-    node-02 = { role = "worker", ip = "192.168.122.12" },
    }
 }

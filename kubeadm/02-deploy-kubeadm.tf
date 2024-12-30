@@ -68,7 +68,7 @@ resource "terraform_data" "init_master" {
   depends_on = [terraform_data.copy_installer]
 
   for_each =  {for key, val in var.kubeadm_nodes:
-               key => val if val.role == "master-init"}
+               key => val if val.role == "master"}
 
   connection {
     type        = "ssh"
