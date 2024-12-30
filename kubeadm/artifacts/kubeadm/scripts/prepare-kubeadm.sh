@@ -1,0 +1,50 @@
+#!/bin/sh
+
+# Rocky
+# Disble SELINUX 
+# setenforce 0
+# sed -i --follow-symlinks 's/SELINUX=.*/SELINUX=disabled/g' /etc/sysconfig/selinux
+# #
+# dnf install -y dnf-utils
+# dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+# dnf install -y containerd.io socat conntrack iproute-tc iptables-ebtables iptables
+
+# Ubuntu fix using variables
+
+set -x
+#Add k8smaster IP
+echo "192.168.122.11    k8smaster" >> /etc/hosts
+
+# Swap off
+swapoff -a                 
+sed -e '/swap/ s/^#*/#/' -i /etc/fstab  
+
+echo "Install containerd"
+dpkg -i kubeadm/packages/containerd.io_1.6.33-1_amd64.deb
+
+
+# Config containerd
+mkdir -p /etc/containerd
+cp kubeadm/packages/config.toml /etc/containerd/
+
+mkdir -p /etc/nerdctl
+cp kubeadm/kubernetes/config/nerdctl.toml /etc/nerdctl/nerdctl.toml
+
+systemctl restart containerd
+
+# Copy kubeadm and network binaries
+cp kubeadm/kubernetes/bin/* /usr/local/bin
+chmod +x /usr/local/bin/*
+cp -R kubeadm/cni /opt
+chmod +x /opt/cni/bin/*
+
+# Load kubeadm container images
+#nerdctl load -i kubeadm/images/kubeadm.tar
+
+# Configure and start kubelet
+cp kubeadm/kubernetes/config/kubelet.service /etc/systemd/system
+mkdir -p /etc/systemd/system/kubelet.service.d
+\cp -f kubeadm/kubernetes/config/kubelet.service.d/10-kubeadm.conf /etc/systemd/system/kubelet.service.d
+
+systemctl daemon-reload
+systemctl enable kubelet --now

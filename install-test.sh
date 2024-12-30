@@ -51,10 +51,10 @@ read -p "키파일 이름을 지정하세요. " ssh_key_filename
 ssh-keygen -f $ssh_key_filename -N ""
 
 # ssh-key 추가
-
 for (( c=0; c<$node_number; c++ )); do
 set -x
   ssh-keygen -f '$HOME/.ssh/known_hosts' -R '${node_ips[$c]}'
   ssh-copy-id -i $ssh_key_filename root@${node_ips[$c]}
 set +x
 done
+
