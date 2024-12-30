@@ -5,8 +5,8 @@
 
 To-Do
 
-1. install 변수를 terraform variables에 매핑 처리
-2. kubeadm 버전에 따른 large size 바이너리 download 처리
+1. install 변수를 terraform variables에 매핑 처리 - 1차 작업 완료
+2. kubeadm 버전에 따른 large size 바이너리 download 처리 
 3. tf 바이너리 다운로드 처리
 4. os 버전에 따른 tf 모듈 선택 처리
 5. traefik ingress > nginx ingress 변경 처리
