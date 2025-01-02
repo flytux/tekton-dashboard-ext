@@ -4,7 +4,8 @@ echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
 
 chmod 400 $HOME/.ssh/id_rsa.key
 
-dnf install -y socat conntrack
+# Rocky linux 
+#dnf install -y socat conntrack
 
 until [ $(ssh -i /root/.ssh/id_rsa.key -o StrictHostKeyChecking=no 192.168.122.11 -- cat join_cmd | wc -l) != 0 ];
 do

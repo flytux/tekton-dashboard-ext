@@ -1,4 +1,4 @@
-variable "kube_version" {default = "v1.30.4" }
+variable "kube_version" {default = "v1.31.0" }
 
 variable "ssh_key" {default = "../idrsa"}
 
@@ -14,7 +14,7 @@ variable "kubeadm_nodes" {
 
   type = map(object({ role = string, ip = string }))
   default = { 
-# install 스크립트에서 추가하므로 아래 삭제
-    node-01 = { role = "master", ip = "192.168.122.11" },
+     node-01 = { role = "master", ip = "192.168.122.11" },
+     node-02 = { role = "worker", ip = "192.168.122.12" },
    }
 }

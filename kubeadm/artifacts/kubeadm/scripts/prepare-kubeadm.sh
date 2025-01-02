@@ -32,8 +32,12 @@ cp kubeadm/kubernetes/config/nerdctl.toml /etc/nerdctl/nerdctl.toml
 
 systemctl restart containerd
 
-# Copy kubeadm and network binaries
+# Copy network binaries
 cp kubeadm/kubernetes/bin/* /usr/local/bin
+
+# Copy kubernetes binaries
+cp kubeadm/kubernetes/bin/v1.31.0/* /usr/local/bin
+
 chmod +x /usr/local/bin/*
 cp -R kubeadm/cni /opt
 chmod +x /opt/cni/bin/*

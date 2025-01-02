@@ -2,6 +2,7 @@ resource "local_file" "prepare_kubeadm" {
     content     = templatefile("${path.module}/${var.kubeadm_home}/templates/prepare-kubeadm.sh", {
                    master_ip = var.master_ip,
                    master_hostname = var.master_hostname
+                   kube_version = var.kube_version
                    })
     filename = "${path.module}/${var.kubeadm_home}/scripts/prepare-kubeadm.sh"
 }
