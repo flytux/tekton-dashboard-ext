@@ -28,7 +28,7 @@ fi
 # 클러스터 노드 정보 입력
 read -p "- 노드 갯수는 몇개 인가요 ? " node_number
 
-read -p "- 노드 OS는 무엇인가요 ? rocky or ubuntu " node_os
+#read -p "- 노드 OS는 무엇인가요 ? rocky or ubuntu " node_os
 
 for (( c=0; c<$node_number; c++ )); do
     read -p "- IP는 무엇인가요? " node_ip
@@ -67,3 +67,8 @@ done
 
 echo "   }" >> kubeadm/01-variables.tf
 echo "}"    >> kubeadm/01-variables.tf
+
+# terraform install (Opentofu 설치 및 init 선행 필요)
+
+tf -chdir=./kubeadm destroy -auto-approve
+tf -chdir=./kubeadm apply -auto-approve

@@ -14,7 +14,10 @@ variable "kubeadm_nodes" {
 
   type = map(object({ role = string, ip = string }))
   default = { 
-     node-01 = { role = "master", ip = "192.168.122.11" },
-     node-02 = { role = "worker", ip = "192.168.122.12" },
+  # 인스톨 스크립트에서 노드 목록 생성
+
+
+    node-01 = { role = "master", ip = "192.168.122.11" },
+    node-02 = { role = "worker", ip = "192.168.122.12" },
    }
 }
