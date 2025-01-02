@@ -5,11 +5,11 @@
 
 To-Do
 
-1. install 변수를 terraform variables에 매핑 처리 - 1차 작업 완료
-2. kubeadm 버전에 따른 large size 바이너리 download 처리 
-3. tf 바이너리 다운로드 처리
-4. os 버전에 따른 tf 모듈 선택 처리
-5. traefik ingress > nginx ingress 변경 처리
+1. install 변수를 terraform variables에 매핑 처리 - variables.tf 파일에 노드 정보 생성 처리
+2. kubeadm 버전에 따른 large size 바이너리 download 처리 kubernetes bin 폴더에 버전별로 사전에 다운로드 하여 준비
+3. tf 바이너리 다운로드 처리 => 적용 불필요 할것으로 생각되고, 사전 준비시에 일괄 준비하는 것으로 변경
+4. os 버전에 따른 tf 모듈 선택 처리 => 브랜치를 나누어서 관리하는 것으로 변경 ubuntu 브랜치 생성
+5. traefik ingress, cilium helm chart 다운로드 스크립트 추가
 
 ### Tekton Dashboard Extention 
 
