@@ -1,0 +1,20 @@
+---
+services:
+  code-server:
+    image: code-server:v1
+    container_name: code-server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Seoul
+      - PASSWORD=9ijn0okM!@
+      - HASHED_PASSWORD= #optional
+      - SUDO_PASSWORD=9ijn0okM!@
+      - SUDO_PASSWORD_HASH= #optional
+      - PROXY_DOMAIN=code-server.my.domain #optional
+      - DEFAULT_WORKSPACE=/config/workspace #optional
+    volumes:
+      - /root/works/code/config:/config
+    ports:
+      - 8080:8080
+    restart: always
