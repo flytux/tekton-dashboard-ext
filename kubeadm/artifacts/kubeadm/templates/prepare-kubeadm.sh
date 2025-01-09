@@ -1,16 +1,5 @@
 #!/bin/sh
 
-# Rocky
-# Disble SELINUX 
-# setenforce 0
-# sed -i --follow-symlinks 's/SELINUX=.*/SELINUX=disabled/g' /etc/sysconfig/selinux
-# #
-# dnf install -y dnf-utils
-# dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-# dnf install -y containerd.io socat conntrack iproute-tc iptables-ebtables iptables
-
-# Ubuntu fix using variables
-
 set -x
 #Add k8smaster IP
 echo "${master_ip}    ${master_hostname}" >> /etc/hosts
@@ -19,9 +8,19 @@ echo "${master_ip}    ${master_hostname}" >> /etc/hosts
 swapoff -a                 
 sed -e '/swap/ s/^#*/#/' -i /etc/fstab  
 
-echo "Install containerd"
-dpkg -i kubeadm/packages/containerd.io_1.6.33-1_amd64.deb
-
+if [ ! -z "$(cat /etc/*release | grep -i ubuntu)" ]; 
+then
+  echo "Ubuntu: Install containerd, socat, conntrack"
+  dpkg -i kubeadm/packages/*.deb
+else
+  echo "Rocky: Install containerd, socat, conntracl"
+  setenforce 0
+  sed -i --follow-symlinks 's/SELINUX=.*/SELINUX=disabled/g' /etc/sysconfig/selinux
+  #dnf install -y dnf-utils
+  #dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  #dnf install -y containerd.io socat conntrack iproute-tc iptables-ebtables iptables
+  rpm -Uvh kubeadm/packages/*.rpm --force
+fi
 
 # Config containerd
 mkdir -p /etc/containerd
@@ -30,7 +29,7 @@ cp kubeadm/packages/config.toml /etc/containerd/
 mkdir -p /etc/nerdctl
 cp kubeadm/kubernetes/config/nerdctl.toml /etc/nerdctl/nerdctl.toml
 
-systemctl restart containerd
+systemctl enable containerd --now
 
 # Copy network binaries
 cp kubeadm/kubernetes/bin/* /usr/local/bin

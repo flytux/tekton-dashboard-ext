@@ -28,8 +28,6 @@ fi
 # 클러스터 노드 정보 입력
 read -p "- 노드 갯수는 몇개 인가요 ? " node_number
 
-read -p "- 노드 OS는 무엇인가요 ? rocky or ubuntu " node_os
-
 for (( c=0; c<$node_number; c++ )); do
     read -p "- IP는 무엇인가요? " node_ip
     node_ips[$c]=$node_ip
