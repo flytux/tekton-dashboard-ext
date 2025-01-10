@@ -1,0 +1,13 @@
+nodes:
+  - name: m1.local
+    ip: 192.168.122.38
+    role: master
+  - name: w1.local
+    ip: 192.168.122.195
+    role: worker
+
+ssh_key: ~/.ssh/id_rsa
+master_hostname: m1.local
+master_ip: 192.168.122.38
+kube_version: v1.31.0
+pod_cidr: 10.244.0.0/16
