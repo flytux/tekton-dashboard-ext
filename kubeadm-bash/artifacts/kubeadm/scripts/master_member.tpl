@@ -14,7 +14,3 @@ done
 mkdir -p $HOME/.kube
 cp -ru /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
-
-# 03 install cni
-kubectl taint nodes $(hostname) node-role.kubernetes.io/control-plane:NoSchedule-
-
