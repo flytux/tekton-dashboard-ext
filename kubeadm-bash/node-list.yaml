@@ -1,3 +1,4 @@
+# 노드 설정
 nodes:
   - name: m1.local
     ip: 192.168.122.38
@@ -6,6 +7,7 @@ nodes:
     ip: 192.168.122.195
     role: worker
 
+# SSH 키파일, 마스터노드 명, 마스터노드 IP, 설치 Kubernetes 버전, POD CIDR 설정
 ssh_key: ~/.ssh/id_rsa
 master_hostname: m1.local
 master_ip: 192.168.122.38

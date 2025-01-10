@@ -27,7 +27,7 @@ do
   node_name[$c]=$(yq -r ".nodes[$c].name" $file)
   node_ip[$c]=$(yq -r ".nodes[$c].ip" $file)
   node_role[$c]=$(yq -r ".nodes[$c].role" $file)
-  
+
   echo "==============================================================="
   echo "node name $c :" ${node_name[$c]}
   echo "node ip $c :" ${node_ip[$c]}
@@ -75,6 +75,7 @@ do
     # 노드 역할이 master 인 경우 master_init.sh 실행
     echo "${node_name[$c]} :" "master"
     echo "====== SETTING MASTER NODE UP ======"
+    ssh -i ${ssh_key} root@${node_ip[$c]} kubeadm/scripts/master_init.sh
   fi
 done
 
@@ -86,11 +87,13 @@ do
     # 노드 역할이 master_member인 경우 master_member.sh 실행
     echo "${node_name[$c]} :" "master-member"
     echo "====== SETTING MASTER MEMBER UP ======"
+    ssh -i ${ssh_key} root@${node_ip[$c]} kubeadm/scripts/master_member.sh
   elif [[ "${node_role[$c]}" == "worker" ]]
   then
     # 노드 역할이 worker 인 경우 worker.sh 실행
     echo "${node_name[$c]} :" "worker"
     echo "====== SETTING WORKER UP ======"
+    ssh -i ${ssh_key} root@${node_ip[$c]} kubeadm/scripts/worker.sh
   else
     echo "${node_name[$c]} :" "master"
     echo "====== CHECKING MASTER NODE ======"
