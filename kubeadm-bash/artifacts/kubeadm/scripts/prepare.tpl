@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -x
+#set -x
 #Add k8smaster IP
 echo "${master_ip}    ${master_hostname}" >> /etc/hosts
 

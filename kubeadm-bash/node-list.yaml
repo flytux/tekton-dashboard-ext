@@ -1,4 +1,6 @@
-# 노드 설정
+# 노드 설정 
+# Role : master / master-member / worker
+
 nodes:
   - name: m1.local
     ip: 192.168.122.38
