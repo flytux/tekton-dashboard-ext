@@ -7,7 +7,7 @@ chmod 400 /root/.ssh/id_rsa
 # Rocky linux 
 #dnf install -y socat conntrack
 
-until [ 3 != 0 ];
+until [ 1 != 0 ];
 do
         echo Wait Master Node Init..
 	sleep 10

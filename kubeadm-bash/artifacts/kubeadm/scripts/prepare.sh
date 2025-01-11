@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -x
+#set -x
 #Add k8smaster IP
 echo 192.168.122.38 m1.local >> /etc/hosts
 
@@ -8,18 +8,21 @@ echo 192.168.122.38 m1.local >> /etc/hosts
 swapoff -a                 
 sed -e '/swap/ s/^#*/#/' -i /etc/fstab  
 
-if [ ! -z  ]; 
+if [ $(cat /etc/*release | grep -i ubuntu | wc -l) -ne 0 ]; 
 then
   echo Ubuntu: Install containerd, socat, conntrack
   dpkg -i kubeadm/packages/*.deb
-else
-  echo Rocky: Install containerd, socat, conntracl
+elif [ $(cat /etc/*release | grep -i rocky | wc -l) -ne 0 ];
+then 
+  echo Rocky: Install containerd, socat, conntrack
   setenforce 0
   sed -i --follow-symlinks 's/SELINUX=.*/SELINUX=disabled/g' /etc/sysconfig/selinux
   #dnf install -y dnf-utils
   #dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
   #dnf install -y containerd.io socat conntrack iproute-tc iptables-ebtables iptables
   rpm -Uvh kubeadm/packages/*.rpm --force
+else
+  echo ====== Try Ubuntu or Rocky ======
 fi
 
 # Config containerd

@@ -7,7 +7,7 @@ chmod 400 $HOME/.ssh/id_rsa
 # Rocky linux 
 #dnf install -y socat conntrack
 
-until [ $(ssh -i /root/.ssh/id_rsa -o StrictHostKeyChecking=no ${master_ip} -- cat join_cmd | wc -l) != 0 ];
+until [ $(echo "\$(ssh -i /root/.ssh/id_rsa -o StrictHostKeyChecking=no ${master_ip} -- cat join_cmd)" | wc -l) != 0 ];
 do
         echo "Wait Master Node Init.."
 	sleep 10

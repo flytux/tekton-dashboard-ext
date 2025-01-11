@@ -39,63 +39,21 @@ done
 rm -rf artifacts/kubeadm/scripts/*.sh
 
 # 설치 스크립트를 템플릿에서 생성
-# Create prepare.sh script
 prepare_str=$(cat artifacts/kubeadm/scripts/prepare.tpl)
 eval "echo \"${prepare_str}\"" > artifacts/kubeadm/scripts/prepare.sh
 
-# Create master_init.sh script
+# master_init.sh 스크립트 생성
 master_init_str=$(cat artifacts/kubeadm/scripts/master_init.tpl)
 eval "echo \"${master_init_str}\"" > artifacts/kubeadm/scripts/master_init.sh
 
-# Create master_member.sh script
+# master_member.sh 스크립트 생성
 master_member_str=$(cat artifacts/kubeadm/scripts/master_member.tpl)
 eval "echo \"${master_member_str}\"" > artifacts/kubeadm/scripts/master_member.sh
 
-# Create worker.sh script
+# worker.sh 스크립트 생성
 worker_str=$(cat artifacts/kubeadm/scripts/worker.tpl)
 eval "echo \"${worker_str}\"" > artifacts/kubeadm/scripts/worker.sh
 
-
-# 설치 파일, SSH키, 복사 후 마스터 노드 설치 수행
-for (( c=0 ; c < number_of_nodes; c++)); 
-do
-  # 설치 파일 복사
-  echo "====== COPYING INSTALL FILES ======"
-  scp -i ${ssh_key} -r artifacts/kubeadm root@${node_ip[$c]}:/root
-  scp -i ${ssh_key} ~/.ssh/id_rsa root@${node_ip[$c]}:/root/.ssh/
-  ssh -i ${ssh_key} root@${node_ip[$c]} chmod +x kubeadm/scripts/*.sh
-
-  # 컨테이너디, Kubelet 설치
-  echo "====== INSTALLING CONTAIND, KUBELETS ======"
-  ssh -i ${ssh_key} root@${node_ip[$c]} kubeadm/scripts/prepare.sh
-
-  # 마스터 노드 설치
-  if [[ "${node_role[$c]}" == "master" ]]
-  then
-    # 노드 역할이 master 인 경우 master_init.sh 실행
-    echo "${node_name[$c]} :" "master"
-    echo "====== SETTING MASTER NODE UP ======"
-    ssh -i ${ssh_key} root@${node_ip[$c]} kubeadm/scripts/master_init.sh
-  fi
-done
-
-# 마스터 멤버 노드, 워커 노드 설치 수행
-for (( c=0 ; c < number_of_nodes; c++)); 
-do
-  if [[ "${node_role[$c]}" == "master-member" ]]
-  then
-    # 노드 역할이 master_member인 경우 master_member.sh 실행
-    echo "${node_name[$c]} :" "master-member"
-    echo "====== SETTING MASTER MEMBER UP ======"
-    ssh -i ${ssh_key} root@${node_ip[$c]} kubeadm/scripts/master_member.sh
-  elif [[ "${node_role[$c]}" == "worker" ]]
-  then
-    # 노드 역할이 worker 인 경우 worker.sh 실행
-    echo "${node_name[$c]} :" "worker"
-    echo "====== SETTING WORKER UP ======"
-    ssh -i ${ssh_key} root@${node_ip[$c]} kubeadm/scripts/worker.sh
-  else
-    echo "${node_name[$c]} :" "master"
-    echo "====== CHECKING MASTER NODE ======"
-  fi
-done
+# reset.sh 스크립트 생성
+reset_str=$(cat artifacts/kubeadm/scripts/reset.tpl)
+eval "echo \"${reset_str}\"" > artifacts/kubeadm/scripts/reset.sh
